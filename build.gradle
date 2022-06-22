@@ -50,8 +50,8 @@ publishing {
             name = "GitHubPackages"
             url = "https://maven.pkg.github.com/episilia/io"
             credentials {
-                username = System.getenv("USERNAME")
-                password = System.getenv("TOKEN")
+                username = System.getenv("pavanbadugu")
+                password = System.getenv("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")
             }
         }
     }
