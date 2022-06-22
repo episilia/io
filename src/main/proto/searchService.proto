@@ -1,0 +1,104 @@
+syntax = "proto2";
+package episilia;
+
+import "google/protobuf/empty.proto";
+
+message LogSearchRequest{
+  required string app_id = 1;
+  required KeyOperator appid_op = 2;
+
+  required string tenant_id = 3;
+
+  optional int64 start_ts = 4;
+  optional int64 end_ts = 5;
+
+  // This part contains the Key selectors
+  enum KeyOperator {
+    EQ = 0;
+    NOT_EQ = 1;
+    REGx = 2;
+    NOT_REGx = 3;
+  }
+
+  message KeySelector {
+    required string key = 1;
+    required string value_expr = 2;
+    required KeyOperator op = 3;
+  }
+  repeated KeySelector key_selectors = 6;
+
+  // This part contains the search expression filters
+  enum SearchFilter {
+    MATCH = 0;
+    MATCH_NOT = 1;
+    REGx_MATCH = 2;
+    REGx_MATCH_NOT = 3;
+  }
+  message SearchExpr {
+    required SearchFilter search_filter = 1;
+    required string search_expr = 2;
+  }
+  repeated SearchExpr search_exprs = 7;
+
+  required int64 responseLimit = 8;
+
+  required int64 contextLimit = 9;
+
+  required bool s3write = 10;
+
+  required int64 s3Limit = 11;
+
+  optional string query = 12;
+}
+
+message LogRecord{
+  required string message = 1;
+  required string app_id = 2;
+  required string tenant_id = 3;
+  optional int64 ts = 4;
+  repeated string keys = 5;
+  repeated string values = 6;
+  required int64 msg_id = 7;
+}
+
+message SearchResponse{
+  repeated LogRecord records = 1;
+  enum STATUS{
+    FOUND = 2;
+    NOTFOUND = 3;
+    ERROR = 4;
+  }
+  required STATUS status = 5;
+  required int64 responseTimeInMills = 6;
+}
+
+message TailResponse{
+  required SearchResponse result = 1;
+  required string id = 2;
+  required string hash = 3;
+}
+
+service SearchService{
+  rpc search(LogSearchRequest) returns (SearchResponse){};
+}
+
+message Value{
+  repeated string values = 1;
+}
+message LogLabels{
+  map<string, Value> labelMap = 1;
+}
+message LabelRequest{
+}
+
+service LabelService{
+  rpc getLabels(LabelRequest) returns (LogLabels){};
+}
+
+message ConfigRequest{
+  map<string, string> configMap = 1;
+}
+service ConfigService{
+  rpc changeConfig(ConfigRequest) returns (google.protobuf.Empty){};
+}
+

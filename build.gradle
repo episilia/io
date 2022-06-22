@@ -1,0 +1,46 @@
+
+
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.0"
+    id("com.google.protobuf") version "0.8.15"
+    id("java-library")
+}
+
+group 'com.episilia'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+
+    implementation('io.grpc:grpc-all:1.47.0')
+    implementation("com.google.protobuf:protobuf-java:4.0.0-rc-2")
+}
+
+
+sourceSets {
+    main {
+        java {
+            srcDirs("build/generated/source/proto/main/grpc")
+            srcDirs("build/generated/source/proto/main/java")
+        }
+        proto{
+            DuplicatesStrategy.WARN
+            srcDir 'proto/'
+            exclude 'build/extracted-include-protos/'
+        }
+    }
+}
+
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:3.17.2" }
+    plugins {
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:1.39.0" }
+    }
+    generateProtoTasks {
+        all()*.plugins { grpc {} }
+    }
+}

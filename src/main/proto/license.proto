@@ -1,0 +1,14 @@
+syntax = "proto2";
+package episilia;
+import "google/protobuf/empty.proto";
+
+
+message licenseData {
+  required bool isValid = 1;
+  required string policy = 2;
+  map<string, string> featureMap = 3;
+}
+
+service LicenseService{
+  rpc getLicense(google.protobuf.Empty) returns (licenseData){};
+}
