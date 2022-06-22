@@ -1,9 +1,8 @@
-
-
 plugins {
     id("com.github.johnrengelman.shadow") version "7.1.0"
     id("com.google.protobuf") version "0.8.15"
     id("java-library")
+    id("maven-publish")
 }
 
 group 'com.episilia'
@@ -27,7 +26,7 @@ sourceSets {
             srcDirs("build/generated/source/proto/main/grpc")
             srcDirs("build/generated/source/proto/main/java")
         }
-        proto{
+        proto {
             DuplicatesStrategy.WARN
             srcDir 'proto/'
             exclude 'build/extracted-include-protos/'
@@ -42,5 +41,23 @@ protobuf {
     }
     generateProtoTasks {
         all()*.plugins { grpc {} }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/episilia/io"
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
     }
 }
