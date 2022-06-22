@@ -47,7 +47,7 @@ protobuf {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
+            name = "repsy"
             url = "https://repo.repsy.io/mvn/episilia/io"
             credentials {
                 username = "episilia"
