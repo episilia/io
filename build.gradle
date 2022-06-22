@@ -48,9 +48,9 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/episilia/io"
+            url = "https://repo.repsy.io/mvn/episilia/io"
             credentials {
-                username = System.getenv("USERNAME")
+                username = "episilia"
                 password = System.getenv("TOKEN")
             }
         }
