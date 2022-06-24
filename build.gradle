@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.episilia'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -47,11 +47,10 @@ protobuf {
 publishing {
     repositories {
         maven {
-            name = "repsy"
             url = "https://repo.repsy.io/mvn/episilia/io"
             credentials {
                 username = "episilia"
-                password = System.getenv("TOKEN")
+                password = "Codesign123."
             }
         }
     }
