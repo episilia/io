@@ -4,13 +4,13 @@ package episilia;
 import "google/protobuf/empty.proto";
 
 message LogSearchRequest{
-  required string app_id = 1;
-  required KeyOperator appid_op = 2;
+  optional string app_id = 1;
+  optional KeyOperator appid_op = 2;
 
-  required string tenant_id = 3;
+  optional string tenant_id = 3;
 
-  optional int64 start_ts = 4;
-  optional int64 end_ts = 5;
+  required int64 start_ts = 4;
+  required int64 end_ts = 5;
 
   // This part contains the Key selectors
   enum KeyOperator {
@@ -40,13 +40,13 @@ message LogSearchRequest{
   }
   repeated SearchExpr search_exprs = 7;
 
-  required int64 responseLimit = 8;
+  optional int64 responseLimit = 8;
 
-  required int64 contextLimit = 9;
+  optional int64 contextLimit = 9;
 
-  required bool s3write = 10;
+  optional bool s3write = 10;
 
-  required int64 s3Limit = 11;
+  optional int64 s3Limit = 11;
 
   optional string query = 12;
 }
