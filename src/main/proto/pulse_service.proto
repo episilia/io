@@ -15,14 +15,17 @@ service PulseMetricsService {
 message PulseCluster {
   string client_id = 1;
   string env = 2;
-  string release_version = 3;
-  string license_key = 4;
-  int64 start_ts = 5;
+  string env_type = 3;
+  string cluster_name = 4;
+  string release_version = 5;
+  string license_key = 6;
+  int64 start_ts = 7;
 }
 
 message PulseResponse {
   bool success = 1;
   string message = 2;
+  map<string, string> data = 3;
 }
 
 message PulseClusterResponse {
@@ -31,255 +34,18 @@ message PulseClusterResponse {
   bool license_valid = 3;
   int64 valid_till = 4;
   map<string, string> feature_map = 5;
-}
-
-message PulseMetricsSource {
-
-  string server_id = 1;
-  string client_id = 2;
-  string tenant_id = 3;
-  string env = 4;
-  int64 start_ts = 5;
-  int64 start_time = 6;
-  int32 duration = 7;
-  string release_version = 8;
+  PulseCluster cluster = 6;
 }
 
 message PulseMetrics {
-  string server_id = 1;
-  string client_id = 2;
-  string tenant_id = 3;
-  string env = 4;
-  int64 start_ts = 5;
-  int64 start_time = 6;
-  int32 duration = 7;
-  string release_version = 8;
-  map<string, int64> metrics = 9;
-}
-
-message PulseIndexerMetrics {
-  PulseMetricsSource source = 1;
-
-  int32 mem_used_mb = 2;
-  int32 cpu_pct = 3;
-  int64 logs_in_mem_count = 4;
-  int64 logs_in_mem_bytes = 5;
-
-  int64 lc_1_rps = 11;
-  int64 lc_1_mbps = 12;
-  int64 lc_1_log_bytes = 13;
-  int64 lc_1_log_count = 14;
-  int64 lc_1_ofm_count = 15;
-  int64 lc_1_skip_count = 16;
-  int64 lc_1_pause_count = 17;
-  int64 lc_1_pause_micros = 18;
-  int64 lc_1_resume_count = 19;
-  int64 lc_1_read_micros = 20;
-  int64 lc_1_noread_micros = 21;
-  int64 lc_1_process_micros = 22;
-
-  int64 jp_2_rps = 23;
-  int64 jp_2_mbps = 24;
-  int64 jp_2_err_count = 25;
-  int64 jp_2_log_count = 26;
-  int64 jp_2_micros = 27;
-  int64 jp_2_idle_micros = 28;
-
-  int64 bm_3_rps = 29;
-  int64 bm_3_mbps = 30;
-  int64 bm_3_log_count = 31;
-  int64 bm_3_block_count = 32;
-  int64 bm_3_micros = 33;
-  int64 bm_3_idle_micros = 34;
-
-  int64 bw_4_rps = 35;
-  int64 bw_4_mbps = 36;
-  int64 bw_4_idx_bytes = 37;
-  int64 bw_4_log_count = 38;
-  int64 bw_4_log_bytes = 39;
-  int64 bw_4_logz_bytes = 40;
-  int64 bw_4_logq_count = 41;
-  int64 bw_4_blockq_count = 42;
-  int64 bw_4_fileq_count = 43;
-  int64 bw_4_micros = 44;
-  int64 bw_4_idle_micros = 45;
-  int64 bw_4_ts_min = 46;
-  int64 bw_4_ts_max = 47;
-
-  int64 fu_5_rps = 48;
-  int64 fu_5_kbps = 49;
-  int64 fu_5_file_count = 50;
-  int64 fu_5_log_count = 51;
-  int64 fu_5_idx_bytes = 52;
-  int64 fu_5_log_bytes = 53;
-  int64 fu_5_logz_bytes = 54;
-  int64 fu_5_micros = 55;
-  int64 fu_5_idle_micros = 56;
-}
-
-message PulseSearchMetrics {
-  PulseMetricsSource source = 1;
-
-  int32 cpu_pct = 2;
-  int32 mem_used_mb = 3;
-  int32 mem_max_mb = 4;
-  int32 mem_per_api_mb = 5;
-  int32 mem_total_api_mb = 6;
-  int32 mem_safe_mb = 7;
-  bool api_check_on = 8;
-  bool warmup_on = 9;
-
-  int64 min_hour_loaded = 10;
-  int64 max_hour_loaded = 11;
-
-  int64 api_max_count = 12;
-  int64 api_exec_count = 13;
-  int64 api_skip_count = 14;
-  int64 api_error_count = 15;
-  int64 api_execd_count = 16;
-  int64 api_label_count = 17;
-  int64 api_regex_count = 18;
-  int64 api_total_count = 19;
-  int64 api_inexec_count = 20;
-  int64 api_inwait_count = 21;
-  int64 api_nodata_count = 22;
-  int64 api_result_count = 23;
-  int64 api_noindex_count = 24;
-  int64 api_noregex_count = 25;
-  int64 api_s3result_count = 26;
-  int64 api_memwait_micros = 27;
-  int64 api_index_micros = 28;
-  int64 api_noindex_micros = 29;
-  int64 api_label_error_count = 30;
-  int64 api_label_micros = 31;
-  int64 api_data_micros = 32;
-  int64 api_nodata_micros = 33;
-  int64 api_s3upload_micros = 34;
-
-  int64 ibh_block_add = 35;
-  int64 ibh_block_del = 36;
-  int64 ibh_block_live = 37;
-  int64 ibh_block_nlive = 38;
-  int64 ibh_hour_count = 39;
-  int64 ibh_ts_min = 40;
-  int64 ibh_ts_max = 41;
-
-  int64 ibm_block_add = 42;
-  int64 ibm_block_del = 43;
-  int64 ibm_block_get = 44;
-  int64 ibm_block_miss = 45;
-  int64 ibm_block_mem = 46;
-  int64 ibm_block_add_bytes = 47;
-  int64 ibm_block_del_bytes = 48;
-  int64 ibm_block_get_bytes = 49;
-  int64 ibm_block_mem_bytes = 50;
-  int64 ibm_block_get_micros = 51;
-
-  int64 dbm_lower_bytes = 52;
-  int64 dbm_lower_count = 53;
-  int64 dbm_lower_micros = 54;
-  int64 dbm_s3get_count = 55;
-  int64 dbm_s3get_bytes = 56;
-  int64 dbm_s3get_micros = 57;
-  int64 dbm_s3miss_count = 58;
-  int64 dbm_cache_get_bytes = 59;
-  int64 dbm_cache_get_count = 60;
-  int64 dbm_cache_get_micros = 61;
-  int64 dbm_cache_block_bytes = 62;
-  int64 dbm_cache_block_count = 63;
-  int64 dbm_cache_miss_count = 64;
-
-  int64 wmp_total_millis = 65;
-  int64 wmp_load_micros = 66;
-  int64 wmp_s3list_millis = 67;
-  int64 wmp_s3files_count = 68;
-  int64 wmp_s3fetch_micros = 69;
-  int64 wmp_files_cache_count = 70;
-  int64 wmp_files_error_count = 71;
-  int64 wmp_files_loaded_count = 72;
-  int64 wmp_files_toload_count = 73;
-  int64 wmp_hours_loaded_count = 74;
-  int64 wmp_hours_toload_count = 75;
-
-  int64 idx_s3file_error = 76;
-  int64 idx_s3file_micros = 77;
-  int64 idx_file_load_micros = 78;
-  int64 idx_file_load_bytes = 79;
-  int64 idx_file_load_count = 80;
-  int64 idx_file_load_error = 81;
-  int64 idx_file_rcvd_count = 82;
-  int64 idx_file_json_error = 83;
-}
-
-message PulseGatewayMetrics {
-  PulseMetricsSource source = 1;
-
-  int32 cpu_pct = 2;
-  int32 mem_used_mb = 3;
-
-  int64 label_count = 4;
-  int64 value_count = 5;
-  int64 label_api_count = 6;
-  int64 value_api_count = 7;
-  int64 query_all_count = 8;
-  int64 query_zero_count = 9;
-  int64 query_0to5_count = 10;
-  int64 query_5to10_count = 11;
-  int64 query_10to20_count = 12;
-  int64 query_20to40_count = 13;
-  int64 query_40plus_count = 14;
-  int64 query_result_count = 15;
-  int64 query_search_error_count = 16;
-  int64 query_syntax_error_count = 17;
-  int64 query_valid_result_count = 18;
-}
-
-message PulseOptimizerMetrics {
-  PulseMetricsSource source = 1;
-
-  int32 cpu_pct = 2;
-  int32 mem_used_mb = 3;
-
-  int64 sfo_msg_count = 4;
-  int64 sfo_msg_bytes = 5;
-  int64 sfo_file_count = 6;
-  int64 sfo_group_count = 7;
-  int64 sfo_output_rps = 8;
-  int64 sfo_output_mbps = 9;
-  int64 sfo_process_micros = 10;
-  int64 sfo_null_msg_count = 11;
-
-  int64 ort_datehour_min = 12;
-  int64 ort_datehour_max = 13;
-  int64 ort_folder_count = 14;
-  int64 ort_request_count = 15;
-
-  int64 stage_msg_del_count = 16;
-  int64 stage_msg_ofm_count = 17;
-  int64 stage_msg_del_inmem = 18;
-  int64 stage_msg_pause_micros = 19;
-  int64 stage_msg_skip_count = 20;
-
-  int64 group_msg_count = 21;
-  int64 group_msg_ofm_count = 22;
-  int64 group_msg_inmem = 23;
-  int64 group_msg_pause_micros = 24;
-  int64 group_msg_skip_count = 25;
-}
-
-
-message PulseCPanelMetrics {
-  PulseMetricsSource source = 1;
-
-  int32 cpu_pct = 2;
-  int32 mem_used_mb = 3;
-
-  int64 log_lag = 4;
-  int64 live_delay_mins = 5;
-  bool live_match = 6;
-  bool indexer_healthy = 7;
-  int64 log_offset_start = 8;
-  int64 log_offset_end = 9;
-  int64 log_input_rps = 10;
-  int64 log_ingest_rps = 11;
+  string client_id = 1;
+  string env = 2;
+  string env_type = 3;
+  string cluster_name = 4;
+  string release_version = 5;
+  string server_id = 6;
+  int64 start_ts = 7;
+  int64 start_time = 8;
+  int32 duration = 9;
+  map<string, int64> metrics = 10;
 }
